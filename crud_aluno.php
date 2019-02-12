@@ -43,6 +43,7 @@
                             <th>Bairro</th>
                             <th>Cidade</th>
                             <th>Estado</th>
+                            <th>CEP</th>
                             <th>Data Criação</th>
                             <th>Curso</th>
                             <th colspan="2">Ações</th>
@@ -59,6 +60,7 @@
                             <td> <?php echo $row['CIDADE']; ?></td>
                             <td> <?php echo $row['ESTADO']; ?></td>
                             <td> <?php echo $row['CEP']; ?></td>
+                            <td> <?php echo $row['DATA_CRIACAO']; ?></td>
                             <td> <?php echo $row['ID_CURSO']; ?></td>
                             <td>
                                 <a href="crud_aluno.php?editar=<?php echo $row['ID_ALUNO']; ?>"
@@ -98,8 +100,8 @@
                     
                     <div class="form-group">
                         <label>CEP</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $cep; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="cep" class="form-control" value="<?php echo $cep; ?>" 
+                               placeholder="Entre com o cep">
                     </div>
                     
                     <div class="form-group">
@@ -110,32 +112,32 @@
                     
                     <div class="form-group">
                         <label>Numero</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $numero; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="numero" class="form-control" value="<?php echo $numero; ?>" 
+                               placeholder="Entre com o numero">
                     </div>
                     
                     <div class="form-group">
                         <label>Bairro</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $bairro; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="bairro" class="form-control" value="<?php echo $bairro; ?>" 
+                               placeholder="Entre com o bairro">
                     </div>
                     
                     <div class="form-group">
                         <label>Cidade</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $cidade; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="cidade" class="form-control" value="<?php echo $cidade; ?>" 
+                               placeholder="Entre com o cidade">
                     </div>
                     
                     <div class="form-group">
                         <label>Estado</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $estado; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="estado" class="form-control" value="<?php echo $estado; ?>" 
+                               placeholder="Entre com o estado">
                     </div>
                                                             
                     <div class="form-group">
                         <label>Curso</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $id_curso; ?>" 
-                               placeholder="Entre com o logradouro">
+                        <input type="text" name="curso" class="form-control" value="<?php echo $id_curso; ?>" 
+                               placeholder="Entre com o curso">
                     </div>
                     
                     <div class="form-group">
