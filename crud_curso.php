@@ -28,14 +28,14 @@
         <div class="container">
 
             <?php
-                $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
-                $result = $mysqli->query("SELECT * FROM CURSO") or die($mysqli->error);
-            ?>
+            $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
+            $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
+                C.ID_PROFESSOR, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
+                    . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR") or die($mysqli->error);
             
-            <?php
-                $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
-                $result_professores = $mysqli->query("SELECT * FROM PROFESSOR P "
-                        . "INNER JOIN CURSO C ON C.ID_PROFESSOR = P.ID_PROFESSOR") or die($mysqli->error);
+            $mysqli_2 = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli_2));
+            $result_prof = $mysqli->query("SELECT * FROM PROFESSOR") or die($mysqli_2->error);
+
             ?>
 
             <div class="row justify-content-center">
@@ -51,9 +51,9 @@
 
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td> <?php echo $row['NOME']; ?></td>
-                            <td> </td>
-                            <td> <?php echo $row['DATA_CRIACAO']; ?></td>
+                            <td> <?php echo $row['NOME_CURSO']; ?></td>
+                            <td> <?php echo $row['NOME_PROF']; ?></td>
+                            <td> <?php echo $row['DCC']; ?></td>
                             <td>
                                 <a href="crud_curso.php?editar=<?php echo $row['ID_CURSO']; ?>"
                                    class="btn btn-info">Editar</a>
@@ -71,29 +71,17 @@
                 <form action="process_curso.php" method="POST">
                     <input type="hidden" name="id" value="<?php echo $id; ?>">
                     <div class="form-group">
-                        <label>Nome</label>
+                        <label>Descrição do Curso</label>
                         <input type="text" name="nome" class="form-control" value="<?php echo $nome; ?>" 
                                placeholder="Entre com seu nome">
                     </div>
-                    <div class="form-group">
-                        <label>Data Nascimento</label>
-                        <input type="text" name="data_nascimento" class="form-control" value="<?php ?>" 
-                               placeholder="Entre com sua data de nascimento">
-                    </div>
 
-
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            ..::Selecione::..
-                        </button>
-                        <div class="dropdown-menu">
-
-                            <?php while ($row = $result_professores->fetch_assoc()): ?>
-                                <a class="dropdown-item"><?php echo $row['P.NOME']; ?></a>
-                            <?php endwhile; ?>
-
-                        </div>
-                    </div>
+                    <select name="professor">
+                        <option>..::Selecione::..</option>
+                        <?php while ($r = $result_prof->fetch_assoc()): ?>
+                            <option name="id_prof" value="<?php echo $r['ID_PROFESSOR'] ?>"><?php echo $r['NOME'] ?></option>
+                        <?php endwhile; ?>
+                    </select>
 
                     <div class="form-group">
 
@@ -103,6 +91,16 @@
                             <button type="submit" class="btn btn-primary" name="salvar">Salvar</button>
                         <?php endif; ?>
                     </div>
+
+                    <?php
+
+                    function prep_r($array) {
+                        echo '<pre>';
+                        print_r($array);
+                        echo '</pre>';
+                    }
+                    ?>
+
                 </form>
             </div>
         </div>

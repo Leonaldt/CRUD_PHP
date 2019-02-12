@@ -9,9 +9,13 @@ $nome = '';
 $alterar = false;
 
 if (isset($_POST['salvar'])) {
+
+    $id_prof = $_POST['professor'];
     $nome = $_POST['nome'];
 
-    $mysqli->query("INSERT INTO CURSO (NOME) VALUES ('$nome')") or
+    printf( $id_prof );
+
+    $mysqli->query("INSERT INTO CURSO (NOME, ID_PROFESSOR) VALUES ('$nome', '$id_prof')") or
             die($mysqli->error);
 
     $_SESSION['message'] = "Curso salvo!";
@@ -36,21 +40,23 @@ if (isset($_GET['editar'])) {
     $id = $_GET['editar'];
     $alterar = true;
     $result = $mysqli->query("SELECT * FROM CURSO WHERE ID_CURSO=$id") or die($mysqli->error);
-   
+
     if (!is_array($result)) {
         $row = $result->fetch_array();
         $nome = $row['NOME'];
+        $id_prof = $row['ID_PROFESSOR'];
     }
 }
 
 if (isset($_POST['editar'])) {
-    
+
     $id = $_POST['id'];
+    $id_prof = $_POST['professor'];
     $nome = $_POST['nome'];
 
-    $mysqli->query("UPDATE CURSO SET NOME='$nome' WHERE ID_CURSO=$id") or 
+    $mysqli->query("UPDATE CURSO SET NOME='$nome', ID_PROFESSOR='$id_prof' WHERE ID_CURSO=$id") or
             die($mysqli->error);
-    
+
     $_SESSION['message'] = "Curso alterado!";
     $_SESSION['msg_type'] = "warning";
 
