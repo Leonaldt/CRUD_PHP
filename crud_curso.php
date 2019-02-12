@@ -32,10 +32,9 @@
             $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
                 C.ID_PROFESSOR, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
                     . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR") or die($mysqli->error);
-            
+
             $mysqli_2 = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli_2));
             $result_prof = $mysqli->query("SELECT * FROM PROFESSOR") or die($mysqli_2->error);
-
             ?>
 
             <div class="row justify-content-center">
@@ -76,10 +75,13 @@
                                placeholder="Entre com seu nome">
                     </div>
 
-                    <select name="professor">
+
+                    <select class="form-control" name="professor">
                         <option>..::Selecione::..</option>
                         <?php while ($r = $result_prof->fetch_assoc()): ?>
-                            <option name="id_prof" value="<?php echo $r['ID_PROFESSOR'] ?>"><?php echo $r['NOME'] ?></option>
+                            <option value="<?php echo $r['ID_PROFESSOR']; ?>">
+                                <?php $nome_prof = '' ? $nome_prof : $r['NOME']; ?> 
+                            </option>
                         <?php endwhile; ?>
                     </select>
 

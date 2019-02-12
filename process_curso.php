@@ -5,7 +5,9 @@ session_start();
 $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
 
 $id = 0;
+$id_prof = 0;
 $nome = '';
+$nome_prof = '';
 $alterar = false;
 
 if (isset($_POST['salvar'])) {
@@ -13,7 +15,7 @@ if (isset($_POST['salvar'])) {
     $id_prof = $_POST['professor'];
     $nome = $_POST['nome'];
 
-    printf( $id_prof );
+    printf($id_prof);
 
     $mysqli->query("INSERT INTO CURSO (NOME, ID_PROFESSOR) VALUES ('$nome', '$id_prof')") or
             die($mysqli->error);
@@ -39,12 +41,15 @@ if (isset($_GET['editar'])) {
 
     $id = $_GET['editar'];
     $alterar = true;
-    $result = $mysqli->query("SELECT * FROM CURSO WHERE ID_CURSO=$id") or die($mysqli->error);
+    $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
+                C.ID_PROFESSOR AS ID_PROF_CURSO, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
+                    . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR where ID_CURSO = $id") or die($mysqli->error);
 
     if (!is_array($result)) {
         $row = $result->fetch_array();
-        $nome = $row['NOME'];
-        $id_prof = $row['ID_PROFESSOR'];
+        $nome = $row['NOME_CURSO'];
+        $id_prof = $row['ID_PROF_CURSO'];
+        $nome_prof = $row['NOME_PROF'];
     }
 }
 
