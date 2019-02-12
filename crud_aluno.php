@@ -70,7 +70,7 @@
                             </td>
                         </tr>
                     <?php endwhile; ?>
-                </table>            
+                </table>           
             </div>
 
             <?php
