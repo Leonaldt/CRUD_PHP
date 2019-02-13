@@ -12,7 +12,6 @@
     <body>
 
         <?php
-        
         $id = 0;
         $nome = '';
         $alterar = false;
@@ -60,22 +59,16 @@
                                 <?php echo $r['NOME']; ?> 
                             </option>
                         <?php endif; ?>
-
                     </select>
-
                     <hr>
-
                     <div class="form-group">
-
                         <?php if ($alterar): ?>
                             <button type="submit" class="btn btn-outline-warning" name="editar">Editar</button>
                         <?php else: ?>
                             <button type="submit" class="btn btn-outline-primary" name="salvar">Salvar</button>
                         <?php endif; ?>
-
                         <a class="btn btn-outline-danger" href="crud_curso.php">Cancelar</a>
                     </div>
-
                 </form>
             </div>
         </div>

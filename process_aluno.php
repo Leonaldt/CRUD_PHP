@@ -49,27 +49,9 @@ if (isset($_GET['delete'])) {
     header("location: crud_aluno.php");
 }
 
-if (isset($_GET['editar'])) {
-
-    $id = $_GET['editar'];
-    $alterar = true;
-    $result = $mysqli->query("SELECT * FROM ALUNO WHERE ID_ALUNO=$id") or die($mysqli->error);
-
-    if (!is_array($result)) {
-        $row = $result->fetch_array();
-        $nome = $row['NOME'];
-        $data_nascimento = $row['DATA_NASCIMENTO'];
-        $logradouro = $row['LOGRADOURO'];
-        $numero = $row['NUMERO'];
-        $bairro = $row['BAIRRO'];
-        $cidade = $row['CIDADE'];
-        $estado = $row['ESTADO'];
-        $cep = $row['CEP'];
-    }
-}
-
 if (isset($_POST['editar'])) {
 
+    $id_curso = $_POST['curso'];
     $id = $_POST['id'];
     $nome = $_POST['nome'];
     $data_nascimento = $_POST['data_nascimento'];
@@ -89,4 +71,23 @@ if (isset($_POST['editar'])) {
     $_SESSION['msg_type'] = "warning";
 
     header("location: crud_aluno.php");
+}
+
+if (isset($_GET['editar'])) {
+
+    $id = $_GET['editar'];
+    $alterar = true;
+    $result = $mysqli->query("SELECT * FROM ALUNO WHERE ID_ALUNO=$id") or die($mysqli->error);
+
+    if (!is_array($result)) {
+        $row = $result->fetch_array();
+        $nome = $row['NOME'];
+        $data_nascimento = $row['DATA_NASCIMENTO'];
+        $logradouro = $row['LOGRADOURO'];
+        $numero = $row['NUMERO'];
+        $bairro = $row['BAIRRO'];
+        $cidade = $row['CIDADE'];
+        $estado = $row['ESTADO'];
+        $cep = $row['CEP'];
+    }
 }
