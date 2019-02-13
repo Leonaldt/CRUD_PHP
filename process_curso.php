@@ -8,7 +8,9 @@ $id = 0;
 $id_prof = 0;
 $nome = '';
 $nome_prof = '';
+$string = '';
 $alterar = false;
+
 
 if (isset($_POST['salvar'])) {
 
@@ -43,7 +45,8 @@ if (isset($_GET['editar'])) {
     $alterar = true;
     $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
                 C.ID_PROFESSOR AS ID_PROF_CURSO, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
-                    . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR where ID_CURSO = $id") or die($mysqli->error);
+            . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR where ID_CURSO = $id")
+            or die($mysqli->error);
 
     if (!is_array($result)) {
         $row = $result->fetch_array();
@@ -67,3 +70,21 @@ if (isset($_POST['editar'])) {
 
     header("location: crud_curso.php");
 }
+
+if (isset($_GET['pesquisar'])) {
+
+    $string = $_GET['pesquisar'];
+
+    $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
+                C.ID_PROFESSOR AS ID_PROF_CURSO, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
+            . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR WHERE C.NOME LIKE '%" . $string . "%'")
+            or die($mysqli->error);
+
+    
+    $_SESSION['busca'] = $result;
+
+    var_dump($_SESSION['busca']);
+
+    header("location: crud_curso.php");
+}
+
