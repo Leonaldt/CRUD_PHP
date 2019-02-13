@@ -66,7 +66,7 @@
                             <tr>
                                 <td> <?php echo $row['NOME_CURSO']; ?></td>
                                 <td> <?php echo $row['NOME_PROF']; ?></td>
-                                <td> <?php echo $row['DCC']; ?></td>
+                                <td> <?php echo (new DateTime($row['DCC']))->format('d/m/Y H:i'); ?></td>
                                 <td>
                                     <a href="cadastro_curso.php?editar=<?php echo $row['ID_CURSO']; ?>" 
                                        class="btn btn-outline-warning">Editar</a>
@@ -78,13 +78,11 @@
                     </tbody>
                 </table>            
             </div>  
-
             <div class="row align-items-start">
                 <div class="col">
                     <a href="index.php" class="btn btn-outline-secondary">Sair</a>
                 </div>
             </div>
-
         </div>
 
         <script>

@@ -77,7 +77,7 @@ if (isset($_GET['pesquisar'])) {
 
     $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
                 C.ID_PROFESSOR AS ID_PROF_CURSO, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
-            . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR WHERE C.NOME LIKE '%" . $string . "%'")
+            . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR WHERE C.NOME || P.NOME LIKE '%" . $string . "%'")
             or die($mysqli->error);
 
     

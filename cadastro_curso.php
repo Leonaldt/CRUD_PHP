@@ -12,6 +12,7 @@
     <body>
 
         <?php
+        
         $id = 0;
         $nome = '';
         $alterar = false;
@@ -41,9 +42,9 @@
                 <form action="process_curso.php" method="POST">
                     <input type="hidden" name="id" value="<?php echo $id; ?>">
                     <div class="form-group">
-                        <label>Descrição do Curso</label>
+                        <label>Nome do Curso</label>
                         <input type="text" name="nome" class="form-control" value="<?php echo $nome; ?>" 
-                               placeholder="Entre com seu nome">
+                               placeholder="Nome">
                     </div>
                     <label>Professor</label>
                     <select class="form-control" name="professor">

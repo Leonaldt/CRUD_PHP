@@ -33,19 +33,6 @@ if (isset($_GET['delete'])) {
     header("location: crud_professor.php");
 }
 
-if (isset($_GET['editar'])) {
-
-    $id = $_GET['editar'];
-    $alterar = true;
-    $result = $mysqli->query("SELECT * FROM PROFESSOR WHERE ID_PROFESSOR=$id") or die($mysqli->error);
-   
-    if (!is_array($result)) {
-        $row = $result->fetch_array();
-        $nome = $row['NOME'];
-        $data_nascimento = $row['DATA_NASCIMENTO'];
-    }
-}
-
 if (isset($_POST['editar'])) {
     
     $id = $_POST['id'];
@@ -59,4 +46,17 @@ if (isset($_POST['editar'])) {
     $_SESSION['msg_type'] = "warning";
 
     header("location: crud_professor.php");
+}
+
+if (isset($_GET['editar'])) {
+
+    $id = $_GET['editar'];
+    $alterar = true;
+    $result = $mysqli->query("SELECT * FROM PROFESSOR WHERE ID_PROFESSOR=$id") or die($mysqli->error);
+   
+    if (!is_array($result)) {
+        $row = $result->fetch_array();
+        $nome = $row['NOME'];
+        $data_nascimento = $row['DATA_NASCIMENTO'];
+    }
 }
