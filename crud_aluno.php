@@ -33,9 +33,9 @@
 
         <?php
         $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
-        $result = $mysqli->query("SELECT A.ID_ALUNO, A.NOME, A.DATA_NASCIMENTO, A.LOGRADOURO,  
-        A.NUMERO, A.BAIRRO, A.CIDADE, A.ESTADO, A.DATA_CRIACAO, A.CEP, 
-        A.ID_CURSO, C.ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO, C.ID_PROFESSOR FROM ALUNO A
+        $result = $mysqli->query("SELECT A.ID_ALUNO, A.NOME, A.DATA_NASCIMENTO AS DATA_NASCIMENTO, A.LOGRADOURO,  
+        A.NUMERO, A.BAIRRO, A.CIDADE, A.ESTADO, A.DATA_CRIACAO AS DATA_CRIACAO_ALUNO, A.CEP, 
+        A.ID_CURSO, C.ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DATA_CRIACAO_CURSO, C.ID_PROFESSOR FROM ALUNO A
         INNER JOIN CURSO C ON A.ID_CURSO = C.ID_CURSO") or die($mysqli->error);
         ?>
 
@@ -78,7 +78,7 @@
                                 <td> <?php echo $row['CIDADE']; ?></td>
                                 <td> <?php echo $row['ESTADO']; ?></td>
                                 <td> <?php echo $row['CEP']; ?></td>
-                                <td> <?php echo (new DateTime($row['DATA_CRIACAO']))->format('d/m/Y H:i'); ?></td>
+                                <td> <?php echo (new DateTime($row['DATA_CRIACAO_ALUNO']))->format('d/m/Y H:i'); ?></td>
                                 <td> <?php echo $row['NOME_CURSO']; ?></td>
                                 <td>
                                     <a href="cadastro_aluno.php?editar=<?php echo $row['ID_ALUNO']; ?>"

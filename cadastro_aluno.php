@@ -8,6 +8,62 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script type="text/javascript" >
+
+            function limpa_formulário_cep() {
+                document.getElementById('logradouro').value = ("");
+                document.getElementById('bairro').value = ("");
+                document.getElementById('cidade').value = ("");
+                document.getElementById('uf').value = ("");
+            }
+
+            function meu_callback(conteudo) {
+                if (!("erro" in conteudo)) {
+
+                    document.getElementById('logradouro').value = (conteudo.logradouro);
+                    document.getElementById('bairro').value = (conteudo.bairro);
+                    document.getElementById('cidade').value = (conteudo.localidade);
+                    document.getElementById('uf').value = (conteudo.uf);
+
+                } else {
+                    limpa_formulário_cep();
+                    alert("CEP não encontrado.");
+                }
+            }
+
+            function pesquisacep(valor) {
+
+                var cep = valor.replace(/\D/g, '');
+
+                if (cep != "") {
+
+                    var validacep = /^[0-9]{8}$/;
+
+                    if (validacep.test(cep)) {
+
+                        document.getElementById('logradouro').value = "...";
+                        document.getElementById('bairro').value = "...";
+                        document.getElementById('cidade').value = "...";
+                        document.getElementById('uf').value = "...";
+
+                        var script = document.createElement('script');
+
+                        script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                        document.body.appendChild(script);
+
+                    } else {
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } else {
+                    limpa_formulário_cep();
+                }
+            }
+            ;
+        </script>
+
     </head>
     <body>
 
@@ -34,7 +90,7 @@
 
             $result = $mysqli->query("SELECT A.ID_ALUNO, A.NOME, A.DATA_NASCIMENTO, A.LOGRADOURO,  
             A.NUMERO, A.BAIRRO, A.CIDADE, A.ESTADO, A.DATA_CRIACAO, A.CEP, 
-            A.ID_CURSO, C.ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO, C.ID_PROFESSOR FROM ALUNO A
+            A.ID_CURSO, C.ID_CURSO AS ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO, C.ID_PROFESSOR FROM ALUNO A
             INNER JOIN CURSO C ON A.ID_CURSO = C.ID_CURSO WHERE ID_ALUNO='$id'") or die($mysqli->error);
 
             $row = $result->fetch_array();
@@ -47,8 +103,15 @@
             $estado = $row['ESTADO'];
             $cep = $row['CEP'];
             $nome_curso = $row['NOME_CURSO'];
+            $id_curso = $row['ID_CURSO'];
+        }
+
+        if (isset($_GET['pesquisar'])) {
+            $resultado_busca = busca_cep($_GET['cep']);
+            $logradouro = $resultado_busca['logradouro'];
         }
         ?>
+
         <div class="container">
             <form action="process_aluno.php" method="POST">
                 <div class="form-row align-items-center">
@@ -67,36 +130,36 @@
 
                     <div class="form-group">
                         <label>CEP</label>
-                        <input type="text" name="cep" class="form-control" value="<?php echo $cep; ?>" 
+                        <input type="text" id="cep" name="cep" class="form-control" value="<?php echo $cep; ?>" 
                                placeholder="CEP">
-                        <button type="button" class="btn btn-outline-success">Pesquisar</button>
+                        <button type="button" onclick="pesquisacep(cep.value)" name="pesquisar" class="btn btn-outline-success">Pesquisar</button>
                     </div>
 
                     <div class="form-group">
                         <label>Logradouro</label>
-                        <input type="text" name="logradouro" class="form-control" value="<?php echo $logradouro; ?>" 
+                        <input type="text" id="logradouro" name="logradouro" class="form-control" value="<?php echo $logradouro; ?>" 
                                placeholder="Logradouro">
                     </div>
 
                     <div class="form-group">
                         <label>Numero</label>
-                        <input type="text" name="numero" class="form-control" value="<?php echo $numero; ?>" 
+                        <input type="text" id="numero" name="numero" class="form-control" value="<?php echo $numero; ?>" 
                                placeholder="Numero">
                     </div>
 
                     <div class="form-group">
                         <label>Bairro</label>
-                        <input type="text" name="bairro" class="form-control" value="<?php echo $bairro; ?>" 
+                        <input type="text" id="bairro" name="bairro" class="form-control" value="<?php echo $bairro; ?>" 
                                placeholder="Bairro">
                     </div>
                     <div class="form-group">
                         <label>Cidade</label>
-                        <input type="text" name="cidade" class="form-control" value="<?php echo $cidade; ?>" 
+                        <input type="text" id="cidade" name="cidade" class="form-control" value="<?php echo $cidade; ?>" 
                                placeholder="Cidade">
                     </div>
                     <div class="form-group">
                         <label>Estado</label>
-                        <input type="text" name="estado" class="form-control" value="<?php echo $estado; ?>" 
+                        <input type="text" id="uf" name="estado" class="form-control" value="<?php echo $estado; ?>" 
                                placeholder="Estado">
                     </div>
                     <div class="form-group col-md-4">
