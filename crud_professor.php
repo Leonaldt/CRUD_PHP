@@ -38,7 +38,6 @@
 
         <div class="container">
 
-            <div class="row align-items-start">
                 <div class="col">
                     <a href="cadastro_professor.php" class="btn btn-outline-primary">Novo</a>
                 </div>
@@ -79,7 +78,6 @@
                     <a href="index.php" class="btn btn-outline-secondary">Sair</a>
                 </div>
             </div>
-        </div>
 
         <script>
             $(document).ready(function () {
