@@ -32,7 +32,10 @@
             $id = $_GET['editar'];
             $alterar = true;
 
-            $result = $mysqli->query("SELECT * FROM ALUNO WHERE ID_ALUNO=$id") or die($mysqli->error);
+            $result = $mysqli->query("SELECT A.ID_ALUNO, A.NOME, A.DATA_NASCIMENTO, A.LOGRADOURO,  
+            A.NUMERO, A.BAIRRO, A.CIDADE, A.ESTADO, A.DATA_CRIACAO, A.CEP, 
+            A.ID_CURSO, C.ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO, C.ID_PROFESSOR FROM ALUNO A
+            INNER JOIN CURSO C ON A.ID_CURSO = C.ID_CURSO WHERE ID_ALUNO='$id'") or die($mysqli->error);
 
             $row = $result->fetch_array();
             $nome = $row['NOME'];
@@ -43,6 +46,7 @@
             $cidade = $row['CIDADE'];
             $estado = $row['ESTADO'];
             $cep = $row['CEP'];
+            $nome_curso = $row['NOME_CURSO'];
         }
         ?>
         <div class="container">
@@ -65,6 +69,7 @@
                         <label>CEP</label>
                         <input type="text" name="cep" class="form-control" value="<?php echo $cep; ?>" 
                                placeholder="CEP">
+                        <button type="button" class="btn btn-outline-success">Pesquisar</button>
                     </div>
 
                     <div class="form-group">
@@ -104,9 +109,9 @@
                                 </option>
                             <?php endwhile; ?>
 
-                            <?php if ($alterar && $r['NOME'] = $nome_prof): ?>
+                            <?php if ($alterar && $r['NOME_CURSO'] = $nome_curso): ?>
                                 <option selected="selected" value="<?php echo $id_curso; ?>">
-                                    <?php echo $r['NOME']; ?> 
+                                    <?php echo $r['NOME_CURSO']; ?> 
                                 </option>
                             <?php endif; ?>
                         </select>

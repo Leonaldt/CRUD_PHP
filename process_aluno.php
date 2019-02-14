@@ -5,6 +5,7 @@ session_start();
 $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
 
 $id = 0;
+$id_curso = '';
 $nome = '';
 $data_nascimento = '';
 $logradouro = '';
@@ -17,6 +18,8 @@ $cep = '';
 $alterar = false;
 
 if (isset($_POST['salvar'])) {
+    
+    $id_curso = $_POST['curso'];
 
     $nome = $_POST['nome'];
     $data_nascimento = $_POST['data_nascimento'];
@@ -28,8 +31,9 @@ if (isset($_POST['salvar'])) {
     $cep = $_POST['cep'];
 
     $mysqli->query("INSERT INTO ALUNO (NOME, DATA_NASCIMENTO, 
-        LOGRADOURO, NUMERO, BAIRRO, CIDADE, ESTADO, CEP) 
-        VALUES ('$nome', '$data_nascimento', '$logradouro', '$numero', '$bairro', '$cidade', '$estado', '$cep')") or
+        LOGRADOURO, NUMERO, BAIRRO, CIDADE, ESTADO, CEP, ID_CURSO) 
+        VALUES ('$nome', '$data_nascimento', '$logradouro', '$numero', "
+            . "'$bairro', '$cidade', '$estado', '$cep', '$id_curso')") or
             die($mysqli->error);
 
     $_SESSION['message'] = "Aluno salvo!";
@@ -62,8 +66,9 @@ if (isset($_POST['editar'])) {
     $estado = $_POST['estado'];
     $cep = $_POST['cep'];
 
-    $mysqli->query("UPDATE ALUNO SET NOME='$nome', DATA_NASCIMENTO='$data_nascimento', LOGRADOURO='$logradouro',"
-                    . "NUMERO='$numero', BAIRRO='$bairro', CIDADE='$cidade', ESTADO='$estado', CEP='$cep' "
+    $mysqli->query("UPDATE ALUNO SET NOME='$nome', DATA_NASCIMENTO='$data_nascimento', "
+            . "NUMERO='$numero', BAIRRO='$bairro', CIDADE='$cidade', ESTADO='$estado', "
+            . "CEP='$cep', ID_CURSO='$id_curso' "
                     . "WHERE ID_ALUNO=$id") or
             die($mysqli->error);
 
