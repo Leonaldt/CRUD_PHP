@@ -68,7 +68,7 @@ if (isset($_POST['editar'])) {
 
     $mysqli->query("UPDATE ALUNO SET NOME='$nome', DATA_NASCIMENTO='$data_nascimento', "
             . "NUMERO='$numero', BAIRRO='$bairro', CIDADE='$cidade', ESTADO='$estado', "
-            . "CEP='$cep', ID_CURSO='$id_curso' "
+            . "CEP='$cep', LOGRADOURO='$logradouro', ID_CURSO='$id_curso' "
                     . "WHERE ID_ALUNO=$id") or
             die($mysqli->error);
 

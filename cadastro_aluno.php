@@ -113,13 +113,16 @@
         ?>
 
         <div class="container">
-            <form action="process_aluno.php" method="POST">
+            <form action="process_aluno.php" method="POST" class="needs-validation" novalidate>
                 <div class="form-row align-items-center">
                     <div class="form-group col-md-6">
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <label>Nome</label>
-                        <input type="text" name="nome" class="form-control" value="<?php echo $nome; ?>" 
-                               placeholder="Nome">
+                        <input type="text" name="nome" class="form-control" 
+                               value="<?php echo $nome; ?>" placeholder="Nome" required>
+                        <div class="invalid-feedback">
+                            Por favor preencha seu nome.
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -164,8 +167,8 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label>Curso</label>
-                        <select class="form-control" name="curso">
-                            <option>..::Selecione::..</option>
+                        <select name="curso"  class="custom-select" required>
+                            <option value="">..::Selecione::..</option>
                             <?php while ($r = $result_cursos->fetch_assoc()): ?>
                                 <option value="<?php echo $r['ID_CURSO']; ?>">
                                     <?php echo $r['NOME']; ?> 
@@ -178,6 +181,9 @@
                                 </option>
                             <?php endif; ?>
                         </select>
+                        <div class="invalid-feedback">
+                            Por favor escolha um curso.
+                        </div>
                     </div> 
                     <hr>
                 </div>
@@ -191,5 +197,25 @@
                 </div>
             </form>
         </div>
+        <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
     </body>
 </html>

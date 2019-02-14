@@ -38,28 +38,36 @@
 
         <div class="container">
             <div class="row justify-content-center">
-                <form action="process_curso.php" method="POST">
+                <form action="process_curso.php" method="POST" class="needs-validation" novalidate>
                     <input type="hidden" name="id" value="<?php echo $id; ?>">
                     <div class="form-group">
                         <label>Nome do Curso</label>
                         <input type="text" name="nome" class="form-control" value="<?php echo $nome; ?>" 
-                               placeholder="Nome">
+                               placeholder="Nome" required>
+                        <div class="invalid-feedback">
+                            Por favor informe um curso.
+                        </div>
                     </div>
-                    <label>Professor</label>
-                    <select class="form-control" name="professor">
-                        <option>..::Selecione::..</option>
-                        <?php while ($r = $result_prof->fetch_assoc()): ?>
-                            <option value="<?php echo $r['ID_PROFESSOR']; ?>">
-                                <?php echo $r['NOME']; ?> 
-                            </option>
-                        <?php endwhile; ?>
+                    <div class="form-group">
+                        <label>Professor</label>
+                        <select class="form-control" name="professor" class="custom-select" required>
+                            <option value="">..::Selecione::..</option>
+                            <?php while ($r = $result_prof->fetch_assoc()): ?>
+                                <option value="<?php echo $r['ID_PROFESSOR']; ?>">
+                                    <?php echo $r['NOME']; ?> 
+                                </option>
+                            <?php endwhile; ?>
 
-                        <?php if ($alterar && $r['NOME'] = $nome_prof): ?>
-                            <option selected="selected" value="<?php echo $id_prof; ?>">
-                                <?php echo $r['NOME']; ?> 
-                            </option>
-                        <?php endif; ?>
-                    </select>
+                            <?php if ($alterar && $r['NOME'] = $nome_prof): ?>
+                                <option selected="selected" value="<?php echo $id_prof; ?>">
+                                    <?php echo $r['NOME']; ?> 
+                                </option>
+                            <?php endif; ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor escolha um professor.
+                        </div>
+                    </div>
                     <hr>
                     <div class="form-group">
                         <?php if ($alterar): ?>
@@ -72,6 +80,26 @@
                 </form>
             </div>
         </div>
+        <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
     </body>
 </html>
 
