@@ -2,18 +2,23 @@
 
 <html>
     <head>
-        <title>CADASTRO CURSO - FLEXPEAK</title>
+        <title>CRUD PROFESSOR - FLEXPEAK</title>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="../css/style_cadastro.css">
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     </head>
     <body>
 
         <?php
         $id = 0;
         $nome = '';
+        $data_nascimento = '';
         $alterar = false;
 
         $mysqli = new mysqli('localhost', 'root', '', 'flexpeak') or die(mysqli_error($mysqli));
@@ -23,65 +28,51 @@
 
             $id = $_GET['editar'];
             $alterar = true;
+            $result = $mysqli->query("SELECT * FROM PROFESSOR WHERE ID_PROFESSOR=$id") or die($mysqli->error);
 
-            $result = $mysqli->query("SELECT ID_CURSO, C.NOME AS NOME_CURSO, C.DATA_CRIACAO AS DCC, 
-                    C.ID_PROFESSOR AS ID_PROF_CURSO, P.NOME AS NOME_PROF, DATA_NASCIMENTO, P.DATA_CRIACAO AS DCP FROM CURSO AS C "
-                    . "INNER JOIN PROFESSOR AS P ON C.ID_PROFESSOR = P.ID_PROFESSOR where ID_CURSO = $id")
-                    or die($mysqli->error);
-
-            $row = $result->fetch_array();
-            $nome = $row['NOME_CURSO'];
-            $id_prof = $row['ID_PROF_CURSO'];
-            $nome_prof = $row['NOME_PROF'];
+            if (!is_array($result)) {
+                $row = $result->fetch_array();
+                $nome = $row['NOME'];
+                $data_nascimento = $row['DATA_NASCIMENTO'];
+            }
         }
         ?>
 
-        <div class="container">
+        <div class="container" id="centralizar">
             <div class="row justify-content-center">
-                <form action="process_curso.php" method="POST" class="needs-validation" novalidate>
+                <form action="process_professor.php" method="POST" class="needs-validation" novalidate>
                     <input type="hidden" name="id" value="<?php echo $id; ?>">
                     <div class="form-group">
-                        <label>Nome do Curso</label>
+                        <label>Nome</label>
                         <input type="text" name="nome" class="form-control" value="<?php echo $nome; ?>" 
                                placeholder="Nome" required>
                         <div class="invalid-feedback">
-                            Por favor informe um curso.
+                            Por favor preencha seu nome.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Professor</label>
-                        <select class="form-control" name="professor" class="custom-select" required>
-                            <option value="">..::Selecione::..</option>
-                            <?php while ($r = $result_prof->fetch_assoc()): ?>
-                                <option value="<?php echo $r['ID_PROFESSOR']; ?>">
-                                    <?php echo $r['NOME']; ?> 
-                                </option>
-                            <?php endwhile; ?>
+                        <label>Data Nascimento</label>
+                        <input type="text" name="data_nascimento" class="form-control" value="<?php echo $data_nascimento; ?>" 
+                               placeholder="Data de nascimento">
+                    </div>  
 
-                            <?php if ($alterar && $r['NOME'] = $nome_prof): ?>
-                                <option selected="selected" value="<?php echo $id_prof; ?>">
-                                    <?php echo $r['NOME']; ?> 
-                                </option>
+                    <div class="text-right" >
+                        <hr>
+                        <div class="form-group">
+
+                            <?php if ($alterar): ?>
+                                <button type="submit" class="btn btn-outline-warning" name="editar">Editar</button>
+                            <?php else: ?>
+                                <button type="submit" class="btn btn-outline-primary" name="salvar">Salvar</button>
                             <?php endif; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Por favor escolha um professor.
+
+                            <a class="btn btn-outline-secondary" href="crud_professor.php">Cancelar</a>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <?php if ($alterar): ?>
-                            <button type="submit" class="btn btn-outline-warning" name="editar">Editar</button>
-                        <?php else: ?>
-                            <button type="submit" class="btn btn-outline-primary" name="salvar">Salvar</button>
-                        <?php endif; ?>
-                        <a class="btn btn-outline-danger" href="crud_curso.php">Cancelar</a>
                     </div>
                 </form>
             </div>
-        </div>
+        </div>    
         <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
             (function () {
                 'use strict';
                 window.addEventListener('load', function () {
@@ -102,4 +93,3 @@
         </script>
     </body>
 </html>
-
